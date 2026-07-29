@@ -1,0 +1,31 @@
+diff --git a/cmake/una-app.cmake b/cmake/una-app.cmake
+index b0b18ce..727e2b8 100644
+--- a/cmake/una-app.cmake
++++ b/cmake/una-app.cmake
+@@ -19,6 +19,16 @@ if(NOT DEFINED UNA_PYTHON_EXECUTABLE)
+     endif()
+ endif()
+ 
++# -fcyclomatic-complexity exists only in ST's GNU Tools for STM32 fork; mainline
++# arm-none-eabi-gcc rejects it outright. Opt-in because this file is included
++# before project(), so no compiler probe is available to detect the fork.
++option(UNA_ENABLE_CYCLOMATIC_COMPLEXITY
++    "Emit cyclomatic complexity metrics (ST GNU Tools for STM32 only)" OFF)
++set(UNA_CYCLOMATIC_COMPLEXITY_FLAGS "")
++if(UNA_ENABLE_CYCLOMATIC_COMPLEXITY)
++    set(UNA_CYCLOMATIC_COMPLEXITY_FLAGS -fcyclomatic-complexity)
++endif()
++
+ # Common toolchain setup
+ set(CMAKE_TOOLCHAIN_FILE "$ENV{UNA_SDK}/cmake/toolchain-arm-none-eabi.cmake")
+ 
+@@ -49,8 +59,7 @@ add_compile_options(
+     -nostdlib
+     -mthumb
+     -ffunction-sections
+-    -fcyclomatic-complexity
+-
++    ${UNA_CYCLOMATIC_COMPLEXITY_FLAGS}
+ )
+ 
+ # C++ specific flags
