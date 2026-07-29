@@ -62,7 +62,7 @@ to package.
 
 ### The simulator is x86_64-linux only
 
-`ThirdParty/touchgfx` ships prebuilt, non-redistributable-toolchain binaries:
+`ThirdParty/touchgfx` ships prebuilt binaries with no source in the repo:
 
 | Artifact | Format |
 |---|---|
@@ -116,7 +116,7 @@ documented around:
 |---|---|---|
 | Relationship to upstream | Own repo, `una-sdk` as `flake = false` input | The delta is one line. A 212 MB fork of a vendored-binary repo would need rebasing every release to carry it. |
 | App location | Monorepo, `apps/<name>/` | One lockfile, one devShell. Apps can be extracted later if they earn it. |
-| Scope | devShell + builder + simulator + host tests + upstream PR | All four approved. |
+| Scope | devShell + builder + simulator + host tests + upstream PR | The builder is the minimum useful unit; the rest each close a gap that would otherwise send you back to a non-Nix machine. |
 | Sequencing | Simulator last | It is the only layer unverifiable from the Mac; it needs a thinkpad to validate. |
 | Systems | `x86_64-linux`, `aarch64-darwin` | Matches nix-config. Simulator is linux-gated. |
 
@@ -167,9 +167,9 @@ sets `UNA_SDK`, and pins both trap-avoiding flags at configure time:
 
 The repo ships one seed app at `apps/hello/`, vendored from upstream's
 `Examples/Apps/Alarm` (the example already proven to build) with its own
-`APP_NAME` and a freshly generated `APP_ID`. It exists to exercise every layer
-— builder, devShell, and simulator — and is the referent of `.#hello` throughout
-this document. It is a starting point for real apps, not a permanent fixture.
+`APP_NAME` and a freshly generated `APP_ID`. Alarm was chosen because it has a
+TouchGFX GUI, so it exercises the simulator layer as well as the builder — a
+Glance-type app would be smaller but would not touch TouchGFX at all.
 
 ### 3. `devShells.default`
 
@@ -177,8 +177,7 @@ Toolchain, `pythonEnv`, and `UNA_SDK` preset, wired through direnv.
 
 Carries a thin `una-build` wrapper that runs configure + build with the same two
 pinned flags as `mkUnaApp`, so the interactive path and the derivation path
-cannot drift apart. This is the mechanism that keeps trap (1) from reappearing
-during ordinary interactive work.
+cannot drift apart.
 
 ### 4. `packages.sim-<app>` — TouchGFX simulator
 
@@ -240,6 +239,6 @@ commit 2026-07-24), MIT-licensed, and `Docs/deploy.md` explicitly invites PRs.
 4. `nix run .#sim-hello` boots the simulator on x86_64-linux and logs
    `GUI is now running`.
 5. A `.uapp` built through this repo runs on real hardware after a USB copy.
-   Hardware-gated and manual — this is the only criterion that cannot be
-   automated, and it is the one that ultimately validates that a mainline ARM
-   GCC build is genuinely equivalent to an ST-toolchain one.
+   Manual and hardware-gated — the only criterion that cannot be automated, and
+   the only one that confirms a mainline ARM GCC build behaves like an
+   ST-toolchain one rather than merely linking like one.
