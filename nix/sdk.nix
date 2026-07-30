@@ -9,6 +9,7 @@
 
         patches = [
           ../patches/0001-cyclomatic-complexity-opt-in.patch
+          ../patches/0002-host-tests-find-gtest.patch
         ];
 
         dontConfigure = true;
