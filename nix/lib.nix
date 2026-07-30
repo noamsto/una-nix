@@ -38,6 +38,12 @@
           runHook preInstall
           mkdir -p $out
           find . -name '*.uapp' -exec cp {} $out/ \;
+          # A CMake target rename upstream would otherwise yield an empty $out
+          # and a green build.
+          if [ -z "$(ls -A $out)" ]; then
+            echo "mkUnaApp: build produced no .uapp artifact" >&2
+            exit 1
+          fi
           runHook postInstall
         '';
       };
