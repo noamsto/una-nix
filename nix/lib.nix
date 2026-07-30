@@ -17,6 +17,11 @@
         # nixpkgs' cmake hook would configure the wrong directory.
         dontUseCmakeConfigure = true;
 
+        # The output is a packaged ARM firmware container, not a host binary —
+        # there is nothing to strip or patchelf, and the reference scanner
+        # segfaults walking it.
+        dontFixup = true;
+
         UNA_SDK = unaSdk;
 
         buildPhase = ''
