@@ -48,7 +48,9 @@ are never needed. Stock nixpkgs `gcc-arm-embedded` builds a valid package.
 
 Exactly one line stood in the way: `una-app.cmake` passes
 `-fcyclomatic-complexity`, which exists only in ST's GNU Tools for STM32 fork.
-`patches/0001` makes it opt-in. That fix is filed upstream as
+`patches/0001` probes for it with `check_cxx_compiler_flag` and applies it only
+when the compiler accepts it, so ST builds keep the metrics and everyone else
+builds at all. That fix is filed upstream as
 [una-sdk#232](https://github.com/UNAWatch/una-sdk/pull/232); if it merges, the
 patch goes away.
 
