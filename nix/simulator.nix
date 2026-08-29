@@ -48,6 +48,13 @@
         # plain `:=` in the makefile, not `override`, so a command-line
         # assignment wins and propagates to the `una/Makefile` sub-make.
         #
+        # The Makefile adds no SDL include path on Linux: it relies on
+        # SDL_image.h's `#include "SDL.h"` resolving by the quoted-include
+        # rule, which searches the including file's own directory. That holds
+        # on a distro where both headers share /usr/include/SDL2, but SDL2 and
+        # SDL2_image are separate store paths here, so SDL2's include dir has
+        # to be named explicitly.
+        #
         # imageconvert.out and fontconvert.out are dynamically linked ELF
         # executables vendored in the (read-only) SDK store path, and they
         # run *during* the build (via the Makefile's `assets` target), so
@@ -68,6 +75,7 @@
           cd Software/Apps/TouchGFX-GUI
           make -f simulator/gcc/Makefile -j$NIX_BUILD_CORES \
             touchgfx_path=${unaSdk}/ThirdParty/touchgfx \
+            ADDITIONAL_INCLUDE_PATHS=${lib.getDev pkgs.SDL2}/include/SDL2 \
             imageconvert_executable=$patchedTools/imageconvert.out \
             fontconvert_executable=$patchedTools/fontconvert.out
 
