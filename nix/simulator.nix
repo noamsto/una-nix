@@ -38,6 +38,7 @@
         ];
 
         UNA_SDK = unaSdk;
+        NIX_CFLAGS_COMPILE = "-I${lib.getDev pkgs.SDL2}/include/SDL2";
 
         # una/Makefile's config/gcc/app.mk hardcodes touchgfx_path as a
         # relative offset (../../../../../../ThirdParty/touchgfx) that
@@ -53,7 +54,10 @@
         # rule, which searches the including file's own directory. That holds
         # on a distro where both headers share /usr/include/SDL2, but SDL2 and
         # SDL2_image are separate store paths here, so SDL2's include dir has
-        # to be named explicitly.
+        # to be named explicitly. It goes through NIX_CFLAGS_COMPILE rather
+        # than the Makefile's ADDITIONAL_INCLUDE_PATHS because simulator/gcc/
+        # Makefile already assigns that one, and a command-line assignment
+        # would replace its SDK header paths rather than add to them.
         #
         # imageconvert.out and fontconvert.out are dynamically linked ELF
         # executables vendored in the (read-only) SDK store path, and they
@@ -75,7 +79,6 @@
           cd Software/Apps/TouchGFX-GUI
           make -f simulator/gcc/Makefile -j$NIX_BUILD_CORES \
             touchgfx_path=${unaSdk}/ThirdParty/touchgfx \
-            ADDITIONAL_INCLUDE_PATHS=${lib.getDev pkgs.SDL2}/include/SDL2 \
             imageconvert_executable=$patchedTools/imageconvert.out \
             fontconvert_executable=$patchedTools/fontconvert.out
 
