@@ -1,8 +1,16 @@
-{ ... }:
-{
-  perSystem = { pkgs, unaSdk, unaPython, ... }: {
-    _module.args.mkUnaApp =
-      { pname, version, src, cmakeDir }:
+{...}: {
+  perSystem = {
+    pkgs,
+    unaSdk,
+    unaPython,
+    ...
+  }: {
+    _module.args.mkUnaApp = {
+      pname,
+      version,
+      src,
+      cmakeDir,
+    }:
       pkgs.stdenvNoCC.mkDerivation {
         inherit pname version src;
 

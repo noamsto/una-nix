@@ -1,7 +1,11 @@
-{ ... }:
-{
-  perSystem = { pkgs, config, unaSdk, ... }: {
-    checks.hello-uapp = pkgs.runCommand "hello-uapp-check" { } ''
+{...}: {
+  perSystem = {
+    pkgs,
+    config,
+    unaSdk,
+    ...
+  }: {
+    checks.hello-uapp = pkgs.runCommand "hello-uapp-check" {} ''
       uapp=$(find ${config.packages.hello} -name '*.uapp' | head -1)
       if [ -z "$uapp" ]; then
         echo "no .uapp produced by packages.hello"
@@ -15,8 +19,8 @@
       name = "una-sdk-host-tests";
       src = unaSdk;
 
-      nativeBuildInputs = [ pkgs.cmake pkgs.gnumake ];
-      buildInputs = [ pkgs.gtest ];
+      nativeBuildInputs = [pkgs.cmake pkgs.gnumake];
+      buildInputs = [pkgs.gtest];
 
       dontUseCmakeConfigure = true;
 

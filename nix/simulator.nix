@@ -8,9 +8,15 @@
 # return with `lib.optionalAttrs (system == ...) { ... }` defeats
 # flake-parts' static "is formatter defined for every system" heuristic and
 # breaks `nix flake show` for aarch64-darwin.
-{ ... }:
-{
-  perSystem = { pkgs, lib, system, config, unaSdk, ... }: {
+{...}: {
+  perSystem = {
+    pkgs,
+    lib,
+    system,
+    config,
+    unaSdk,
+    ...
+  }: {
     packages = lib.optionalAttrs (system == "x86_64-linux") {
       sim-hello = pkgs.stdenv.mkDerivation {
         pname = "sim-hello";

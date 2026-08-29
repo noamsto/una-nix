@@ -1,6 +1,5 @@
-{ ... }:
-{
-  perSystem = { mkUnaApp, ... }: {
+{...}: {
+  perSystem = {mkUnaApp, ...}: {
     packages.hello = mkUnaApp {
       pname = "hello";
       version = "0.1.0";
