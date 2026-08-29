@@ -139,6 +139,7 @@ entirely.
 | `nix/devshell.nix` | devShell and the `una-build` wrapper |
 | `nix/checks.nix` | Artifact check and SDK host tests |
 | `nix/simulator.nix` | TouchGFX simulator (x86_64-linux) |
+| `nix/treefmt.nix` | `nix fmt` — alejandra over the repo's own Nix |
 | `patches/` | Applied to the SDK input |
 | `apps/` | Watch apps |
 

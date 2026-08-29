@@ -1,6 +1,6 @@
 { ... }:
 {
-  perSystem = { pkgs, unaSdk, unaPython, ... }:
+  perSystem = { pkgs, config, unaSdk, unaPython, ... }:
     let
       una-build = pkgs.writeShellApplication {
         name = "una-build";
@@ -30,6 +30,7 @@
           pkgs.gcc-arm-embedded
           unaPython
           una-build
+          config.treefmt.build.wrapper
         ];
 
         UNA_SDK = unaSdk;
