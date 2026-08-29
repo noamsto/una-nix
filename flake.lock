@@ -59,11 +59,11 @@
     "una-sdk": {
       "flake": false,
       "locked": {
-        "lastModified": 1785336393,
-        "narHash": "sha256-rCHclE5isRdyW/KBZByZ3Zb1ofOHSSZtdyuxYwyweaQ=",
+        "lastModified": 1787142877,
+        "narHash": "sha256-lUwnHpJsS2BrRCa6zRCQ//v7+p0Y/rFdkbMkVM1tpXE=",
         "owner": "UNAWatch",
         "repo": "una-sdk",
-        "rev": "11fe739cf14cea4d0136264aa8732c6cfd6dc831",
+        "rev": "8cdb73140a3d97455b80c22d32e5012e26f72291",
         "type": "github"
       },
       "original": {

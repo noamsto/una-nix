@@ -46,13 +46,12 @@ compiles and links with `-nostdlib -nodefaultlibs -nostartfiles` against a
 vendored `libstdc++.a`, so newlib's syscall layer is never linked and its stubs
 are never needed. Stock nixpkgs `gcc-arm-embedded` builds a valid package.
 
-Exactly one line stood in the way: `una-app.cmake` passes
+Exactly one line stood in the way: `una-app.cmake` passed
 `-fcyclomatic-complexity`, which exists only in ST's GNU Tools for STM32 fork.
-`patches/0001` probes for it with `check_cxx_compiler_flag` and applies it only
-when the compiler accepts it, so ST builds keep the metrics and everyone else
-builds at all. That fix is filed upstream as
-[una-sdk#232](https://github.com/UNAWatch/una-sdk/pull/232); if it merges, the
-patch goes away.
+That is fixed upstream as of
+[una-sdk#232](https://github.com/UNAWatch/una-sdk/pull/232) — the flag is now
+probed with `check_cxx_compiler_flag` and applied only when the compiler
+accepts it, so ST builds keep the metrics and everyone else builds at all.
 
 ## Usage
 

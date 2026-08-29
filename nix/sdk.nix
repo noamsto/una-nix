@@ -8,7 +8,6 @@
         src = inputs.una-sdk;
 
         patches = [
-          ../patches/0001-cyclomatic-complexity-probe.patch
           ../patches/0002-host-tests-find-gtest.patch
         ];
 
