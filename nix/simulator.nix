@@ -35,6 +35,10 @@
           pkgs.SDL2_image
           pkgs.libjpeg
           pkgs.stdenv.cc.cc.lib
+          # SDL_syswm.h, which HALSDL2.cpp includes, unconditionally pulls in
+          # X11/Xlib.h and X11/Xatom.h when SDL is built with the X11 driver.
+          # Compile-time only — SDL dlopens the video driver at runtime.
+          pkgs.xorg.libX11
         ];
 
         UNA_SDK = unaSdk;
